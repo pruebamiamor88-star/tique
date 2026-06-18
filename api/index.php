@@ -11,10 +11,18 @@ if (strpos($uri, '/tique/') === 0) {
 // Ruta absoluta al archivo real solicitado dentro de /api/php_sources/
 $realFile = __DIR__ . '/php_sources' . $uri;
 
+// Si no tiene extensión .php y el archivo físico no existe, intentamos buscarlo con extensión .php
+if (!is_file($realFile) && pathinfo($realFile, PATHINFO_EXTENSION) !== 'php') {
+    $realFileCandidate = $realFile . '.php';
+    if (is_file($realFileCandidate)) {
+        $realFile = $realFileCandidate;
+    }
+}
+
 // Si el archivo físico existe y es PHP, lo ejecutamos
 if (is_file($realFile) && pathinfo($realFile, PATHINFO_EXTENSION) === 'php') {
-    // Definimos cabeceras de JSON para las peticiones de datos.php
-    if ($uri === '/datos.php') {
+    // Definimos cabeceras de JSON para las peticiones de datos.php o datos
+    if ($uri === '/datos.php' || $uri === '/datos') {
         header('Content-Type: application/json; charset=utf-8');
     }
     require $realFile;

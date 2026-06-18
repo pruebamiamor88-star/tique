@@ -18,7 +18,15 @@
       "destination": "/api/index.php"
     },
     {
+      "source": "/load",
+      "destination": "/api/index.php"
+    },
+    {
       "source": "/datos.php",
+      "destination": "/api/index.php"
+    },
+    {
+      "source": "/datos",
       "destination": "/api/index.php"
     },
     {
@@ -26,11 +34,23 @@
       "destination": "/api/index.php"
     },
     {
+      "source": "/flys",
+      "destination": "/api/index.php"
+    },
+    {
       "source": "/loadtiketid.php",
       "destination": "/api/index.php"
     },
     {
+      "source": "/loadtiketid",
+      "destination": "/api/index.php"
+    },
+    {
       "source": "/checking.php",
+      "destination": "/api/index.php"
+    },
+    {
+      "source": "/checking",
       "destination": "/api/index.php"
     },
     {

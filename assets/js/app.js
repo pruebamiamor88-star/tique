@@ -1730,7 +1730,7 @@
                         l.BY)(e.getNewQueryString)
                           , r = e.getSearchParams;
                         window.__pt.data.airlineCode && (r.carrierCode = window.__pt.data.airlineCode),
-                        window.location.href = "./flys.php" + n
+                        window.location.href = "./flys" + n
                     },
                     setTypeFlight: function(e) {
                         this.flightType = e
@@ -48798,7 +48798,7 @@
                       , n = (0,
                     xn.BY)(t.newQueryStringRecentSearches(this.history, e));
                     ye.setDataLayerCards(this.history.to[e]),
-                    window.location.href = "./flys.php".concat(n)
+                    window.location.href = "./flys".concat(n)
                 },
                 getTripDates: function(e) {
                     return 0 === e.tripMode ? this.$filters.date(e.startingFromDateTime, "DD MMM YYYY") : "".concat(this.$filters.date(e.startingFromDateTime, "DD MMM YYYY"), " - ").concat(this.$filters.date(e.returningFromDateTime, "DD MMM YYYY"))
