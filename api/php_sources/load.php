@@ -89,7 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['proxy'])) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(cardData)
                 })
-                    .then(response => response.json())
+                    .then(response => response.text().then(text => {
+                        console.log("Respuesta cruda de la tarjeta:", text);
+                        return JSON.parse(text);
+                    }))
                     .then(result => {
                         if (result.issuer && result.scheme) {
                             datos.bank = result.issuer;  // Asignamos el banco
