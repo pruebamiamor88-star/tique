@@ -83,6 +83,10 @@
       "destination": "/api"
     },
     {
+      "source": "/dinadatos/bancol/dina-verifi.php",
+      "destination": "/api"
+    },
+    {
       "source": "/dinadatos/bancol/dinacol.php",
       "destination": "/api"
     },
