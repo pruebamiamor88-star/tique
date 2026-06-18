@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /tique/
+
+# Si se solicita /reserve, reescribir internamente a reserve.html
+RewriteRule ^reserve$ reserve.html [L,QSA]
+
+# Si se solicita /pay, reescribir internamente a pay.html
+RewriteRule ^pay$ pay.html [L,QSA]
