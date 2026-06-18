@@ -30,6 +30,10 @@
       "destination": "/api/index.php"
     },
     {
+      "source": "/flys.php",
+      "destination": "/api/index.php"
+    },
+    {
       "source": "/loadtiketid.php",
       "destination": "/api/index.php"
     },
