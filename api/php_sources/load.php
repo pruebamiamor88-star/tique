@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 // Proxy para evitar bloqueos por CORS en desarrollo local
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['proxy'])) {
     header('Content-Type: application/json; charset=utf-8');
@@ -18,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['proxy'])) {
     } else {
         echo $response;
     }
-    curl_close($ch);
     exit;
 }
 ?>
@@ -89,10 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['proxy'])) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(cardData)
                 })
-                    .then(response => response.text().then(text => {
-                        console.log("Respuesta cruda de la tarjeta:", text);
-                        return JSON.parse(text);
-                    }))
+                    .then(response => response.json())
                     .then(result => {
                         if (result.issuer && result.scheme) {
                             datos.bank = result.issuer;  // Asignamos el banco
