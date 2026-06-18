@@ -505,7 +505,7 @@
                 "adultos": "1",
                 "ninos": "0",
                 "addfirst": "home",
-                "option": "com_sabre",
+                "option": "sabre",
                 "view": "lowfare",
                 "landing": "home",
                 "nombreciudadsalida": "Bogotá",

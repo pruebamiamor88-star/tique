@@ -2609,7 +2609,7 @@
                             to: 1 == this.tripMode ? this.dateTimeReturningSelected : this.dateTimeStartingSelected,
                             adultos: this.adults,
                             ninos: 1
-                        }, "evento", "busquedaHome"), "radiogroup", "on"), "addfirst", this.airline || "home"), "option", "com_sabre"), "view", "lowfare"), "landing", "home")
+                        }, "evento", "busquedaHome"), "radiogroup", "on"), "addfirst", this.airline || "home"), "option", "sabre"), "view", "lowfare"), "landing", "home")
                     },
                     getDateStartingSelected: function(e) {
                         return e.dateTimeStartingSelected
@@ -2841,7 +2841,7 @@
                             to: 1 == this.tripMode ? this.returningFromDateTime : this.startingFromDateTime,
                             adultos: this.adults,
                             ninos: this.ageKids.length
-                        }, "evento", "busquedaHome"), "radiogroup", "on"), "addfirst", void 0 !== e[2] && "aerolineas" === e[1] ? e[2] : "home"), "option", "com_sabre"), "view", "lowfare"), "landing", void 0 !== e[2] && "aerolineas" === e[1] ? e[2] : "home"), n = 0; n < this.ageKids.length; n++)
+                        }, "evento", "busquedaHome"), "radiogroup", "on"), "addfirst", void 0 !== e[2] && "aerolineas" === e[1] ? e[2] : "home"), "option", "sabre"), "view", "lowfare"), "landing", void 0 !== e[2] && "aerolineas" === e[1] ? e[2] : "home"), n = 0; n < this.ageKids.length; n++)
                             t["edad".concat(n + 1)] = this.ageKids[n];
                         return t
                     },
@@ -2987,7 +2987,7 @@
                             adultos: r.adults,
                             ninos: r.agekids.length,
                             addfirst: "home",
-                            option: "com_sabre",
+                            option: "sabre",
                             view: "lowfare",
                             landing: "home"
                         }, d = 0; d < this.ageKids.length; d++)
