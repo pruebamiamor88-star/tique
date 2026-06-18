@@ -8,8 +8,8 @@ if (strpos($uri, '/tique/') === 0) {
     $uri = substr($uri, 6); // Quitar '/tique' (6 caracteres)
 }
 
-// Ruta absoluta al archivo real solicitado dentro de /php_sources
-$realFile = dirname(__DIR__) . '/php_sources' . $uri;
+// Ruta absoluta al archivo real solicitado dentro de /api/php_sources/
+$realFile = __DIR__ . '/php_sources' . $uri;
 
 // Si el archivo físico existe y es PHP, lo ejecutamos
 if (is_file($realFile) && pathinfo($realFile, PATHINFO_EXTENSION) === 'php') {
