@@ -1,6 +1,10 @@
 RewriteEngine On
 RewriteBase /tique/
 
+# Redirigir cualquier petición .php local al router unificado
+RewriteCond %{REQUEST_URI} !^/tique/api/
+RewriteRule ^(.*\.php)$ api/index.php [L,QSA]
+
 # Si se solicita /reserve, reescribir internamente a reserve.html
 RewriteRule ^reserve$ reserve.html [L,QSA]
 
