@@ -1,5 +1,4 @@
 <?php
-echo "Depuración: El enrutador principal se está ejecutando correctamente."; exit;
 // Obtener la URI solicitada
 $uri = $_SERVER['REQUEST_URI'];
 $uri = explode('?', $uri)[0]; // Omitir parámetros URL si existen
