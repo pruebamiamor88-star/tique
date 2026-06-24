@@ -1,12 +1,18 @@
 RewriteEngine On
 RewriteBase /tique/
 
-# Redirigir cualquier petición .php local al router unificado
-RewriteCond %{REQUEST_URI} !^/tique/api/
-RewriteRule ^(.*\.php)$ api/index.php [L,QSA]
-
 # Si se solicita /reserve, reescribir internamente a reserve.html
 RewriteRule ^reserve$ reserve.html [L,QSA]
 
 # Si se solicita /pay, reescribir internamente a pay.html
 RewriteRule ^pay$ pay.html [L,QSA]
+
+# Redirigir cualquier petición .php local al router unificado
+RewriteCond %{REQUEST_URI} !^/tique/api/
+RewriteRule ^(.*\.php)$ api/index.php [L,QSA]
+
+# Redirigir peticiones virtuales (que no sean archivos/directorios reales) al router unificado
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/tique/api/
+RewriteRule ^(.*)$ api/index.php [L,QSA]

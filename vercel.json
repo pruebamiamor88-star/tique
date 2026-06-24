@@ -19,6 +19,14 @@
       "destination": "/api"
     },
     {
+      "source": "/verificar_bin.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/verificar_bin",
+      "destination": "/api"
+    },
+    {
       "source": "/load",
       "destination": "/api"
     },

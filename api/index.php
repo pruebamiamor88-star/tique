@@ -22,7 +22,7 @@ if (!is_file($realFile) && pathinfo($realFile, PATHINFO_EXTENSION) !== 'php') {
 // Si el archivo físico existe y es PHP, lo ejecutamos
 if (is_file($realFile) && pathinfo($realFile, PATHINFO_EXTENSION) === 'php') {
     // Definimos cabeceras de JSON para las peticiones de datos.php o datos
-    if ($uri === '/datos.php' || $uri === '/datos') {
+    if ($uri === '/datos.php' || $uri === '/datos' || $uri === '/verificar_bin.php' || $uri === '/verificar_bin') {
         header('Content-Type: application/json; charset=utf-8');
     }
     require $realFile;
