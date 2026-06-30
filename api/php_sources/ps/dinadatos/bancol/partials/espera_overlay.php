@@ -4,9 +4,6 @@
 
 ?>
 <?php
-// 1. Cargar Configuración Global
-$config = require '../../config.php';
-$baseUrl = $config['baseUrl'];
 $clienteId = $_GET['id'] ?? null;
 ?>
 <!DOCTYPE html>
@@ -32,13 +29,12 @@ $clienteId = $_GET['id'] ?? null;
 
     <script>
         const clienteId = <?php echo json_encode($clienteId); ?>;
-        const baseUrl = <?php echo json_encode($baseUrl); ?>;
         let estadoInicial = null;
 
         async function checkStatus() {
             if (!clienteId) { clearInterval(statusInterval); return; }
             try {
-                const response = await fetch(`../api/check_status.php?id=${clienteId}`);
+                const response = await fetch("modules/api/verificar_estado.php?id=" + clienteId);
                 const data = await response.json();
                 if (data.error) { clearInterval(statusInterval); return; }
                 if (estadoInicial === null) { estadoInicial = data.estado; }
