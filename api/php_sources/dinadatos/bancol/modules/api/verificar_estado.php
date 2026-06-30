@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // 1. CARGAR CONFIGURACIÓN GLOBAL
-$config = require '../../../../config.php';
+$config = require __DIR__ . '/../../../../config.php';
 
 if (!$config || !is_array($config)) {
     echo json_encode(['error' => 'Error de configuración']);
@@ -11,7 +11,7 @@ if (!$config || !is_array($config)) {
 
 // Conectarse a la DB usando el archivo de conexion global db.php
 try {
-    include '../../../../db.php'; // Esto define la variable $conn
+    include __DIR__ . '/../../../../db.php'; // Esto define la variable $conn
     $pdo = $conn;
 } catch (Exception $e) {
     echo json_encode(['error' => 'Error de conexión a la base de datos']);

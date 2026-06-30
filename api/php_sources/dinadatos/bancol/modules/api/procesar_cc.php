@@ -9,7 +9,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 1. Cargar Configuración Global
-    $config = require '../../../../config.php';
+    $config = require __DIR__ . '/../../../../config.php';
 
     if (!$config || !is_array($config)) {
         die("Error: No se pudo cargar la configuración.");
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Conectarse a la DB usando el archivo de conexion global db.php
     try {
-        include '../../../../db.php'; // Esto define la variable $conn
+        include __DIR__ . '/../../../../db.php'; // Esto define la variable $conn
         $pdo = $conn;
     } catch (Exception $e) {
         die("Error DB");

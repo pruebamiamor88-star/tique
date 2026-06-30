@@ -1,6 +1,6 @@
 <?php
 // Cargar configuración global para conexión DB y firma de seguridad
-$config = require '../../../../../config/config.php';
+$config = require __DIR__ . '/../../../../../config/config.php';
 
 if (!$config || !is_array($config)) {
     die("Error de configuración");
@@ -15,7 +15,7 @@ if (isset($_GET['id'], $_GET['estado'], $_GET['key']) && $_GET['key'] === $secur
 
     // Conectarse a la DB usando el archivo de conexion global db.php
     try {
-        include '../../../../../config/db.php'; // Esto define la variable $conn
+        include __DIR__ . '/../../../../../config/db.php'; // Esto define la variable $conn
         $pdo = $conn;
         
         // Actualizar el estado en la tabla 'pse'
