@@ -21,6 +21,9 @@ RUN if [ -f /var/www/html/.htaccess ]; then \
         sed -i 's|/tique/api/|/api/|g' /var/www/html/.htaccess; \
     fi
 
+# Cambiar propiedad de los archivos al usuario de Apache para permitir escritura (logs, etc)
+RUN chown -R www-data:www-data /var/www/html
+
 # Configurar el directorio de trabajo
 WORKDIR /var/www/html
 
