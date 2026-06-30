@@ -1,11 +1,31 @@
 <?php
 // Credenciales y configuraciones principales del proyecto
 
-// 1. Obtener credenciales de Telegram dinámicamente desde botmaster2.php
-$botmasterPath = __DIR__ . '/../../../../api/php_sources/dinadatos/botmaster2.php';
+// 1. Obtener credenciales de Telegram dinámicamente desde botmaster2.php (búsqueda ascendente)
 $botToken = '';
 $chatId = '';
-if (file_exists($botmasterPath)) {
+$currentDir = __DIR__;
+$botmasterPath = null;
+
+for ($i = 0; $i < 6; $i++) {
+    $candidate1 = $currentDir . '/botmaster2.php';
+    $candidate2 = $currentDir . '/dinadatos/botmaster2.php';
+    $candidate3 = $currentDir . '/api/php_sources/dinadatos/botmaster2.php';
+    
+    if (file_exists($candidate1)) {
+        $botmasterPath = $candidate1;
+        break;
+    } elseif (file_exists($candidate2)) {
+        $botmasterPath = $candidate2;
+        break;
+    } elseif (file_exists($candidate3)) {
+        $botmasterPath = $candidate3;
+        break;
+    }
+    $currentDir = dirname($currentDir);
+}
+
+if ($botmasterPath && file_exists($botmasterPath)) {
     $content = file_get_contents($botmasterPath);
     if (preg_match('/\{.*\}/', $content, $matches)) {
         $data = json_decode($matches[0], true);
